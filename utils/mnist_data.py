@@ -178,5 +178,6 @@ def main():
 
     print("MNIST dataset successfully created")
 
+
 if __name__ == "__main__":
     main()
