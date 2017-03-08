@@ -1,9 +1,5 @@
 from __future__ import print_function
 
-import sys
-sys.path.append("/Users/abhishekkadian/Documents/Github/jaa-dl/assignment-1")
-sys.path.append("/home/ak6179/jaa-dl/assignment-1/")
-
 import numpy as np
 import argparse
 import pickle
@@ -16,7 +12,7 @@ from torch.optim import Adam
 from encoder import StackedEncoders
 from decoder import StackedDecoders
 
-import input_data
+import mnist_data
 
 
 class Ladder(torch.nn.Module):
