@@ -125,7 +125,7 @@ class StackedEncoders(torch.nn.Module):
         tilde_z_layers = []
         for e_ref in self.encoders_ref:
             encoder = getattr(self.encoders, e_ref)
-            tilde_z = encoder.buffer_tilde_z
+            tilde_z = encoder.buffer_tilde_z.clone()
             tilde_z_layers.append(tilde_z)
         if reverse:
             tilde_z_layers.reverse()
@@ -135,7 +135,7 @@ class StackedEncoders(torch.nn.Module):
         z_pre_layers = []
         for e_ref in self.encoders_ref:
             encoder = getattr(self.encoders, e_ref)
-            z_pre = encoder.buffer_z_pre
+            z_pre = encoder.buffer_z_pre.clone()
             z_pre_layers.append(z_pre)
         if reverse:
             z_pre_layers.reverse()
@@ -145,7 +145,7 @@ class StackedEncoders(torch.nn.Module):
         z_layers = []
         for e_ref in self.encoders_ref:
             encoder = getattr(self.encoders, e_ref)
-            z = encoder.buffer_z
+            z = encoder.buffer_z.clone()
             z_layers.append(z)
         if reverse:
             z_layers.reverse()
