@@ -8,7 +8,7 @@ Implementation of [Ladder Network](https://arxiv.org/abs/1507.02672) in [PyTorch
 
 ### Training ladder
 
-1. Run ```python utils/mnist_data.py``` to create the dataset which will create the ```data``` folder
+1. Run ```python utils/mnist_data.py``` to create the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
 
 2. Run ```python ladder/ladder.py --batch 100 --epochs 150 --noise_std 0.2``` to train the *ladder* network.
 
