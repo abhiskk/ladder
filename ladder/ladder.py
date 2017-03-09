@@ -3,6 +3,7 @@ from __future__ import print_function
 import numpy as np
 import argparse
 import pickle
+import os
 
 import torch
 from torch.autograd import Variable
@@ -13,13 +14,15 @@ from decoder import StackedDecoders
 
 
 class Ladder(torch.nn.Module):
-    def __init__(self, encoder_in, encoder_sizes, decoder_in, decoder_sizes, image_size,
-                 encoder_activations, encoder_train_bn_scaling, encoder_bias, noise_std):
+    def __init__(self, encoder_sizes, decoder_sizes, encoder_activations,
+                 encoder_train_bn_scaling, noise_std):
         super(Ladder, self).__init__()
+        decoder_in = encoder_sizes[-1]
+        encoder_in = decoder_sizes[-1]
         self.se = StackedEncoders(encoder_in, encoder_sizes, encoder_activations,
-                                  encoder_train_bn_scaling, encoder_bias, noise_std)
-        self.de = StackedDecoders(decoder_in, decoder_sizes, image_size)
-        self.bn_image = torch.nn.BatchNorm1d(image_size, affine=False)
+                                  encoder_train_bn_scaling, noise_std)
+        self.de = StackedDecoders(decoder_in, decoder_sizes, encoder_in)
+        self.bn_image = torch.nn.BatchNorm1d(encoder_in, affine=False)
 
     def forward_encoders_clean(self, data):
         return self.se.forward_clean(data)
@@ -46,11 +49,8 @@ class Ladder(torch.nn.Module):
         return self.de.bn_hat_z_layers(hat_z_layers, z_pre_layers)
 
 
-def evaluate_performance(ladder, agg_cost, agg_supervised_cost, agg_unsupervised_cost,
-                         num_batches, valid_loader, e, ind_labelled):
-    agg_cost_scaled = agg_cost / num_batches
-    agg_supervised_cost_scaled = agg_supervised_cost / num_batches
-    agg_unsupervised_cost_scaled = agg_unsupervised_cost / num_batches
+def evaluate_performance(ladder, valid_loader, e, agg_cost_scaled,
+                         agg_supervised_cost_scaled, agg_unsupervised_cost_scaled):
     correct = 0.
     total = 0.
     for batch_idx, (data, target) in enumerate(valid_loader):
@@ -63,32 +63,22 @@ def evaluate_performance(ladder, agg_cost, agg_supervised_cost, agg_unsupervised
         correct += np.sum(target == preds)
         total += target.shape[0]
 
-    print("Epoch", e + 1, "\t",
-          "total cost:", "{:.4f}".format(agg_cost_scaled), "\t",
-          "supervised cost:", "{:.4f}".format(agg_supervised_cost_scaled), "\t",
-          "unsupervised cost:", "{:.4f}".format(agg_unsupervised_cost_scaled), "\t",
-          "validation accuracy:", correct / total)
+    print("Epoch:", e + 1, "\t",
+          "Total Cost:", "{:.4f}".format(agg_cost_scaled), "\t",
+          "Supervised Cost:", "{:.4f}".format(agg_supervised_cost_scaled), "\t",
+          "Unsupervised Cost:", "{:.4f}".format(agg_unsupervised_cost_scaled), "\t",
+          "Validation Accuracy:", correct / total)
 
 
 def main():
-    # TODO IMPORTANT: maintain a different batch-normalization layer for the clean pass
-    # otherwise it will mess up the running means and variances for the noisy pass
-    # which have to be used in the final prediction. Note that although we do a
-    # clean pass to get the reconstruction targets our supervised cost comes from the
-    # noisy pass but our prediction on validation and test set comes from the clean pass.
-
-    # TODO: Not so sure about the above clean and noisy pass. Test both versions.
-
-
-    # TODO: Don't batch normalize using z_pre in the first decoder
-
     # command line arguments
     parser = argparse.ArgumentParser(description="Parser for Ladder network")
     parser.add_argument("--batch", type=int, default=100)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--noise_std", type=float, default=0.2)
-    parser.add_argument("--data_dir", type=str, default="data/")
+    parser.add_argument("--data_dir", type=str, default="data")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--u_costs", type=str, default="0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000.")
     args = parser.parse_args()
 
     batch_size = args.batch
@@ -106,28 +96,28 @@ def main():
     np.random.seed(seed)
     torch.manual_seed(seed)
 
-    train_labelled_images_filename = "train_labelled_images.p"
-    train_labelled_labels_filename = "train_labelled_labels.p"
-    train_unlabelled_images_filename = "train_unlabelled_images.p"
-    train_unlabelled_labels_filename = "train_unlabelled_labels.p"
-    validation_images_filename = "validation_images.p"
-    validation_labels_filename = "validation_labels.p"
+    train_labelled_images_filename = os.path.join(args.data_dir, "train_labelled_images.p")
+    train_labelled_labels_filename = os.path.join(args.data_dir, "train_labelled_labels.p")
+    train_unlabelled_images_filename = os.path.join(args.data_dir, "train_unlabelled_images.p")
+    train_unlabelled_labels_filename = os.path.join(args.data_dir, "train_unlabelled_labels.p")
+    validation_images_filename = os.path.join(args.data_dir, "validation_images.p")
+    validation_labels_filename = os.path.join(args.data_dir, "validation_labels.p")
 
     print("Loading Data")
-    with open(data_dir + train_labelled_images_filename) as f:
+    with open(train_labelled_images_filename) as f:
         train_labelled_images = pickle.load(f)
-    train_labelled_images = train_labelled_images.reshape(train_labelled_images.shape[0], 28 * 28)
-    with open(data_dir + train_labelled_labels_filename) as f:
+    train_labelled_images = train_labelled_images.reshape(train_labelled_images.shape[0], 784)
+    with open(train_labelled_labels_filename) as f:
         train_labelled_labels = pickle.load(f).astype(int)
-    with open(data_dir + train_unlabelled_images_filename) as f:
+    with open(train_unlabelled_images_filename) as f:
         train_unlabelled_images = pickle.load(f)
-    train_unlabelled_images = train_unlabelled_images.reshape(train_unlabelled_images.shape[0], 28 * 28)
-    with open(data_dir + train_unlabelled_labels_filename) as f:
+    train_unlabelled_images = train_unlabelled_images.reshape(train_unlabelled_images.shape[0], 784)
+    with open(train_unlabelled_labels_filename) as f:
         train_unlabelled_labels = pickle.load(f).astype(int)
-    with open(data_dir + validation_images_filename) as f:
+    with open(validation_images_filename) as f:
         validation_images = pickle.load(f)
-    validation_images = validation_images.reshape(validation_images.shape[0], 28 * 28)
-    with open(data_dir + validation_labels_filename) as f:
+    validation_images = validation_images.reshape(validation_images.shape[0], 784)
+    with open(validation_labels_filename) as f:
         validation_labels = pickle.load(f).astype(int)
 
     # Create DataLoaders
@@ -137,24 +127,28 @@ def main():
     validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=True)
 
     # Configure the Ladder
-    encoder_in = 28 * 28
-    decoder_in = 10
-    encoder_sizes = [1000, 500, 250, 250, 250, decoder_in]
-    decoder_sizes = [250, 250, 250, 500, 1000, encoder_in]
-    unsupervised_costs_lambda = [0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000.]
+    encoder_sizes = [1000, 500, 250, 250, 250, 10]
+    decoder_sizes = [250, 250, 250, 500, 1000, 784]
+    unsupervised_costs_lambda = [float(x) for x in args.u_costs.split(",")]
     encoder_activations = ["relu", "relu", "relu", "relu", "relu", "softmax"]
     encoder_train_bn_scaling = [False, False, False, False, False, True]
-    encoder_bias = [False, False, False, False, False, False]
-    ladder = Ladder(encoder_in, encoder_sizes, decoder_in, decoder_sizes, encoder_in,
-                    encoder_activations, encoder_train_bn_scaling, encoder_bias, noise_std)
+    ladder = Ladder(encoder_sizes, decoder_sizes, encoder_activations,
+                    encoder_train_bn_scaling, noise_std)
     optimizer = Adam(ladder.parameters(), lr=0.002)
     loss_supervised = torch.nn.CrossEntropyLoss()
     loss_unsupervised = torch.nn.MSELoss()
 
+    assert len(unsupervised_costs_lambda) == len(decoder_sizes) + 1
+    assert len(encoder_sizes) == len(decoder_sizes)
+
     print("")
-    print("=======NETWORK=======")
+    print("========NETWORK=======")
     print(ladder)
-    print("=====================")
+    print("======================")
+
+    print("")
+    print("==UNSUPERVISED-COSTS==")
+    print(unsupervised_costs_lambda)
 
     print("")
     print("=====================")
@@ -239,8 +233,10 @@ def main():
             if ind_labelled == ind_limit:
                 # Evaluation
                 ladder.eval()
-                evaluate_performance(ladder, agg_cost, agg_supervised_cost, agg_unsupervised_cost,
-                                     num_batches, validation_loader, e, ind_labelled)
+                evaluate_performance(ladder, validation_loader, e,
+                                     agg_cost / num_batches,
+                                     agg_supervised_cost / num_batches,
+                                     agg_unsupervised_cost / num_batches)
                 ladder.train()
     print("=====================\n")
     print("Done :)")

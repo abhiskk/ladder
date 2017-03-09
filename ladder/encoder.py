@@ -6,7 +6,7 @@ from torch.autograd import Variable
 
 class Encoder(torch.nn.Module):
     def __init__(self, d_in, d_out, activation_type,
-                 train_bn_scaling, bias, noise_level):
+                 train_bn_scaling, noise_level):
         super(Encoder, self).__init__()
         self.d_in = d_in
         self.d_out = d_out
@@ -16,7 +16,7 @@ class Encoder(torch.nn.Module):
 
         # Encoder
         # Encoder only uses W matrix, no bias
-        self.linear = torch.nn.Linear(d_in, d_out, bias=bias)
+        self.linear = torch.nn.Linear(d_in, d_out, bias=False)
         self.linear.weight.data = torch.randn(self.linear.weight.data.size()) / np.sqrt(d_in)
 
         # Batch Normalization
@@ -35,10 +35,10 @@ class Encoder(torch.nn.Module):
         # Activation
         if activation_type == 'relu':
             self.activation = torch.nn.ReLU()
-        elif activation_type == 'log_softmax':
-            self.activation = torch.nn.LogSoftmax()
         elif activation_type == 'softmax':
             self.activation = torch.nn.Softmax()
+        else:
+            raise ValueError("invalid Acitvation type")
 
         # buffer for z_pre, z which will be used in decoder cost
         self.buffer_z_pre = None
@@ -81,7 +81,7 @@ class Encoder(torch.nn.Module):
 
 class StackedEncoders(torch.nn.Module):
     def __init__(self, d_in, d_encoders, activation_types,
-                 train_batch_norms, biases, noise_std):
+                 train_batch_norms, noise_std):
         super(StackedEncoders, self).__init__()
         self.buffer_tilde_z_bottom = None
         self.encoders_ref = []
@@ -96,10 +96,8 @@ class StackedEncoders(torch.nn.Module):
             d_output = d_encoders[i]
             activation = activation_types[i]
             train_batch_norm = train_batch_norms[i]
-            bias = biases[i]
             encoder_ref = "encoder_" + str(i)
-            encoder = Encoder(d_input, d_output, activation, train_batch_norm,
-                              bias, noise_level=noise_std)
+            encoder = Encoder(d_input, d_output, activation, train_batch_norm, noise_level=noise_std)
             self.encoders_ref.append(encoder_ref)
             self.encoders.add_module(encoder_ref, encoder)
 
