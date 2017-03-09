@@ -15,13 +15,14 @@ from decoder import StackedDecoders
 
 class Ladder(torch.nn.Module):
     def __init__(self, encoder_sizes, decoder_sizes, encoder_activations,
-                 encoder_train_bn_scaling, noise_std):
+                 encoder_train_bn_scaling, noise_std, use_cuda):
         super(Ladder, self).__init__()
+        self.use_cuda = use_cuda
         decoder_in = encoder_sizes[-1]
         encoder_in = decoder_sizes[-1]
         self.se = StackedEncoders(encoder_in, encoder_sizes, encoder_activations,
-                                  encoder_train_bn_scaling, noise_std)
-        self.de = StackedDecoders(decoder_in, decoder_sizes, encoder_in)
+                                  encoder_train_bn_scaling, noise_std, use_cuda)
+        self.de = StackedDecoders(decoder_in, decoder_sizes, encoder_in, use_cuda)
         self.bn_image = torch.nn.BatchNorm1d(encoder_in, affine=False)
 
     def forward_encoders_clean(self, data):
@@ -49,12 +50,13 @@ class Ladder(torch.nn.Module):
         return self.de.bn_hat_z_layers(hat_z_layers, z_pre_layers)
 
 
-def evaluate_performance(ladder, valid_loader, e, agg_cost_scaled,
-                         agg_supervised_cost_scaled, agg_unsupervised_cost_scaled):
+def evaluate_performance(ladder, valid_loader, e, agg_cost_scaled, agg_supervised_cost_scaled,
+                         agg_unsupervised_cost_scaled, args):
     correct = 0.
     total = 0.
     for batch_idx, (data, target) in enumerate(valid_loader):
-        data = torch.FloatTensor(data)
+        if args.cuda:
+            data = data.cuda()
         data, target = Variable(data), Variable(target)
         output = ladder.forward_encoders_clean(data)
         output = output.data.numpy()
@@ -79,6 +81,7 @@ def main():
     parser.add_argument("--data_dir", type=str, default="data")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--u_costs", type=str, default="0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000.")
+    parser.add_argument("--cuda", type=bool, default=False)
     args = parser.parse_args()
 
     batch_size = args.batch
@@ -86,15 +89,23 @@ def main():
     noise_std = args.noise_std
     data_dir = args.data_dir
     seed = args.seed
+    if args.cuda and not torch.cuda.is_available():
+        print("WARNING: torch.cuda not available, using CPU.\n")
+        args.cuda = False
 
     print("=====================")
     print("BATCH SIZE:", batch_size)
     print("EPOCHS:", epochs)
     print("NOISE STD:", noise_std)
+    print("CUDA:", args.cuda)
     print("=====================\n")
 
     np.random.seed(seed)
     torch.manual_seed(seed)
+    if args.cuda:
+        torch.cuda.manual_seed(seed)
+
+    kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
 
     train_labelled_images_filename = os.path.join(args.data_dir, "train_labelled_images.p")
     train_labelled_labels_filename = os.path.join(args.data_dir, "train_labelled_labels.p")
@@ -122,9 +133,9 @@ def main():
 
     # Create DataLoaders
     unlabelled_dataset = TensorDataset(torch.FloatTensor(train_unlabelled_images), torch.LongTensor(train_unlabelled_labels))
-    unlabelled_loader = DataLoader(unlabelled_dataset, batch_size=batch_size, shuffle=True)
+    unlabelled_loader = DataLoader(unlabelled_dataset, batch_size=batch_size, shuffle=True, **kwargs)
     validation_dataset = TensorDataset(torch.FloatTensor(validation_images), torch.LongTensor(validation_labels))
-    validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=True)
+    validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=True, **kwargs)
 
     # Configure the Ladder
     encoder_sizes = [1000, 500, 250, 250, 250, 10]
@@ -133,10 +144,13 @@ def main():
     encoder_activations = ["relu", "relu", "relu", "relu", "relu", "softmax"]
     encoder_train_bn_scaling = [False, False, False, False, False, True]
     ladder = Ladder(encoder_sizes, decoder_sizes, encoder_activations,
-                    encoder_train_bn_scaling, noise_std)
+                    encoder_train_bn_scaling, noise_std, args.cuda)
     optimizer = Adam(ladder.parameters(), lr=0.002)
     loss_supervised = torch.nn.CrossEntropyLoss()
     loss_unsupervised = torch.nn.MSELoss()
+
+    if args.cuda:
+        ladder.cuda()
 
     assert len(unsupervised_costs_lambda) == len(decoder_sizes) + 1
     assert len(encoder_sizes) == len(decoder_sizes)
@@ -179,6 +193,11 @@ def main():
             ind_labelled += 1
             batch_train_labelled_images = torch.FloatTensor(train_labelled_images[labelled_start:labelled_end])
             batch_train_labelled_labels = torch.LongTensor(train_labelled_labels[labelled_start:labelled_end])
+
+            if args.cuda:
+                batch_train_labelled_images = batch_train_labelled_images.cuda()
+                batch_train_labelled_labels = batch_train_labelled_labels.cuda()
+                unlabelled_images = unlabelled_images.cuda()
 
             labelled_data = Variable(batch_train_labelled_images, requires_grad=False)
             labelled_target = Variable(batch_train_labelled_labels, requires_grad=False)
@@ -236,7 +255,8 @@ def main():
                 evaluate_performance(ladder, validation_loader, e,
                                      agg_cost / num_batches,
                                      agg_supervised_cost / num_batches,
-                                     agg_unsupervised_cost / num_batches)
+                                     agg_unsupervised_cost / num_batches,
+                                     args)
                 ladder.train()
     print("=====================\n")
     print("Done :)")
