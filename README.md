@@ -10,6 +10,8 @@ Implementation of [Ladder Network](https://arxiv.org/abs/1507.02672) in [PyTorch
 
 1. Run ```python utils/mnist_data.py``` to create the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
 
-2. Run ```python ladder/ladder.py --batch 100 --epochs 20 --noise_std 0.2 --data_dir data --u_cost "0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000."``` to train the *ladder* network.
+2. Run the following command to train the *ladder* network:
+
+```python ladder/ladder.py --batch 100 --epochs 20 --noise_std 0.2 --data_dir data --u_cost "0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000."```
 
 **Status**: The unsupervised loss starts at a high value because of which the network overfits the unsupervised loss and the supervised performance is bad.
