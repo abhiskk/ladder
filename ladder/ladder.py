@@ -63,11 +63,11 @@ def evaluate_performance(ladder, agg_cost, agg_supervised_cost, agg_unsupervised
         correct += np.sum(target == preds)
         total += target.shape[0]
 
-    print("Epoch", e + 1, 
-          ", total cost:", "{:.4f}".format(agg_cost_scaled),
-          ", supervised cost:", "{:.4f}".format(agg_supervised_cost_scaled),
-          ", unsupervised cost:", "{:.4f}".format(agg_unsupervised_cost_scaled),
-          ", validation accuracy:", correct / total)
+    print("Epoch", e + 1, "\t",
+          "total cost:", "{:.4f}".format(agg_cost_scaled), "\t",
+          "supervised cost:", "{:.4f}".format(agg_supervised_cost_scaled), "\t",
+          "unsupervised cost:", "{:.4f}".format(agg_unsupervised_cost_scaled), "\t",
+          "validation accuracy:", correct / total)
 
 
 def main():
