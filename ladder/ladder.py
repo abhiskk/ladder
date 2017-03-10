@@ -59,6 +59,7 @@ def evaluate_performance(ladder, valid_loader, e, agg_cost_scaled, agg_supervise
             data = data.cuda()
         data, target = Variable(data), Variable(target)
         output = ladder.forward_encoders_clean(data)
+        # TODO: Do away with the below hack for GPU tensors.
         if args.cuda:
             output = output.cpu()
             target = target.cpu()
@@ -90,7 +91,6 @@ def main():
     batch_size = args.batch
     epochs = args.epochs
     noise_std = args.noise_std
-    data_dir = args.data_dir
     seed = args.seed
     if args.cuda and not torch.cuda.is_available():
         print("WARNING: torch.cuda not available, using CPU.\n")

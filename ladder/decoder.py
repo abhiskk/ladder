@@ -128,7 +128,7 @@ class StackedDecoders(torch.nn.Module):
         return hat_z
 
     def bn_hat_z_layers(self, hat_z_layers, z_pre_layers):
-        # TODO: @Alex, @Joe review this
+        # TODO: Calculate batchnorm using GPU Tensors.
         assert len(hat_z_layers) == len(z_pre_layers)
         hat_z_layers_normalized = []
         for i, (hat_z, z_pre) in enumerate(zip(hat_z_layers, z_pre_layers)):
