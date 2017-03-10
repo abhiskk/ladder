@@ -202,10 +202,6 @@ def main():
             batch_train_labelled_images = torch.FloatTensor(train_labelled_images[labelled_start:labelled_end])
             batch_train_labelled_labels = torch.LongTensor(train_labelled_labels[labelled_start:labelled_end])
 
-            # Adding noise to unlabelled images to deal with small std while batch-normalizing
-            noise = np.random.normal(loc=0.0, scale=args.extra_noise, size=unlabelled_images.size())
-            unlabelled_images += torch.FloatTensor(noise)
-
             if args.cuda:
                 batch_train_labelled_images = batch_train_labelled_images.cuda()
                 batch_train_labelled_labels = batch_train_labelled_labels.cuda()
