@@ -13,4 +13,4 @@ Implementation of [Ladder Network](https://arxiv.org/abs/1507.02672) in [PyTorch
 2. Run the following command to train the *ladder* network:
   - ```python ladder/ladder.py --batch 100 --epochs 20 --noise_std 0.2 --data_dir data```
 
-**Status**: The unsupervised loss starts at a high value because of which the network overfits the unsupervised loss and the supervised performance is bad.
+**Status**: The unsupervised loss starts at a high value because of which the network overfits the unsupervised loss and the supervised performance is bad. Current best accuracy on MNIST using 3000 labels: 98.22%.
