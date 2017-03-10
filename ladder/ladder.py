@@ -82,6 +82,7 @@ def main():
     parser.add_argument("--batch", type=int, default=100)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--noise_std", type=float, default=0.2)
+    parser.add_argument("--extra_noise", type=float, default=0.05)
     parser.add_argument("--data_dir", type=str, default="data")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--u_costs", type=str, default="0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000.")
@@ -99,7 +100,9 @@ def main():
     print("=====================")
     print("BATCH SIZE:", batch_size)
     print("EPOCHS:", epochs)
+    print("RANDOM SEED:", args.seed)
     print("NOISE STD:", noise_std)
+    print("EXTRA NOISE:", args.extra_noise)
     print("CUDA:", args.cuda)
     print("=====================\n")
 
@@ -200,7 +203,7 @@ def main():
             batch_train_labelled_labels = torch.LongTensor(train_labelled_labels[labelled_start:labelled_end])
 
             # Adding noise to unlabelled images to deal with small std while batch-normalizing
-            noise = np.random.normal(loc=0.0, scale=0.05, size=unlabelled_images.size())
+            noise = np.random.normal(loc=0.0, scale=args.extra_noise, size=unlabelled_images.size())
             unlabelled_images += torch.FloatTensor(noise)
 
             if args.cuda:
