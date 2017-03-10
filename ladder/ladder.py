@@ -191,6 +191,8 @@ def main():
                 train_labelled_labels = train_labelled_labels[randomize]
                 ind_labelled = 0
 
+            # TODO: Verify whether labelled examples are used for calculating unsupervised loss.
+
             labelled_start = batch_size * ind_labelled
             labelled_end = batch_size * (ind_labelled + 1)
             ind_labelled += 1
