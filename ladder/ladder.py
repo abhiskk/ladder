@@ -82,17 +82,18 @@ def main():
     parser.add_argument("--batch", type=int, default=100)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--noise_std", type=float, default=0.2)
-    parser.add_argument("--extra_noise", type=float, default=0.05)
     parser.add_argument("--data_dir", type=str, default="data")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--u_costs", type=str, default="0.1, 0.1, 0.1, 0.1, 0.1, 10., 1000.")
     parser.add_argument("--cuda", type=bool, default=False)
+    parser.add_argument("--decay_epoch", type=int, default=15)
     args = parser.parse_args()
 
     batch_size = args.batch
     epochs = args.epochs
     noise_std = args.noise_std
     seed = args.seed
+    decay_epoch = args.decay_epoch
     if args.cuda and not torch.cuda.is_available():
         print("WARNING: torch.cuda not available, using CPU.\n")
         args.cuda = False
@@ -102,7 +103,7 @@ def main():
     print("EPOCHS:", epochs)
     print("RANDOM SEED:", args.seed)
     print("NOISE STD:", noise_std)
-    print("EXTRA NOISE:", args.extra_noise)
+    print("LR DECAY EPOCH:", decay_epoch)
     print("CUDA:", args.cuda)
     print("=====================\n")
 
@@ -144,6 +145,7 @@ def main():
     validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=True, **kwargs)
 
     # Configure the Ladder
+    starter_lr = 0.02
     encoder_sizes = [1000, 500, 250, 250, 250, 10]
     decoder_sizes = [250, 250, 250, 500, 1000, 784]
     unsupervised_costs_lambda = [float(x) for x in args.u_costs.split(",")]
@@ -151,7 +153,7 @@ def main():
     encoder_train_bn_scaling = [False, False, False, False, False, True]
     ladder = Ladder(encoder_sizes, decoder_sizes, encoder_activations,
                     encoder_train_bn_scaling, noise_std, args.cuda)
-    optimizer = Adam(ladder.parameters(), lr=0.002)
+    optimizer = Adam(ladder.parameters(), lr=starter_lr)
     loss_supervised = torch.nn.CrossEntropyLoss()
     loss_unsupervised = torch.nn.MSELoss()
 
@@ -185,6 +187,12 @@ def main():
         # TODO: Add volatile for the input parameters in training and validation
         ind_labelled = 0
         ind_limit = np.ceil(float(train_labelled_images.shape[0]) / batch_size)
+
+        if e > args.decay_epoch:
+            ratio = float(epochs - e) / (epochs - decay_epoch)
+            current_lr = starter_lr * ratio
+            optimizer = Adam(ladder.parameters(), lr=current_lr)
+
 
         for batch_idx, (unlabelled_images, unlabelled_labels) in enumerate(unlabelled_loader):
             if ind_labelled == ind_limit:
