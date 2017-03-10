@@ -6,6 +6,7 @@ import numpy as np
 import gzip
 from collections import defaultdict
 import pickle
+import argparse
 
 
 def get_data(filename, directory,
@@ -75,7 +76,12 @@ def dump_pickle(filepath, d):
 
 
 def main():
-    n_labelled = 3000
+    # command line arguments
+    parser = argparse.ArgumentParser(description="Parser for MNIST data generation")
+    parser.add_argument("--num_labelled", type=int, default=100)
+    args = parser.parse_args()
+
+    n_labelled = args.num_labelled
     random.seed(42)
     np.random.seed(42)
     data_dir = "data/"
