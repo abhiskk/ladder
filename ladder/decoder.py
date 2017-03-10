@@ -146,7 +146,7 @@ class StackedDecoders(torch.nn.Module):
                 hat_z = hat_z.cpu()
                 ones = ones.cpu()
                 mean = mean.cpu()
-            hat_z_normalized = torch.div(hat_z - ones.mm(mean), ones.mm(torch.sqrt(var + 1e-5)))
+            hat_z_normalized = torch.div(hat_z - ones.mm(mean), ones.mm(torch.sqrt(var + 1e-10)))
             if self.use_cuda:
                 hat_z_normalized = hat_z_normalized.cuda()
             hat_z_layers_normalized.append(hat_z_normalized)
