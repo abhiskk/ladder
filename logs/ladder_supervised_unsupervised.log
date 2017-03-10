@@ -1,0 +1,395 @@
+=====================
+BATCH SIZE: 100
+EPOCHS: 20
+NOISE STD: 0.2
+CUDA: True
+=====================
+
+Loading Data
+
+========NETWORK=======
+Ladder (
+  (se): StackedEncoders (
+    (encoders): Sequential (
+      (encoder_0): Encoder (
+        (linear): Linear (784 -> 1000)
+        (bn_normalize_clean): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=False)
+        (bn_normalize): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=False)
+        (activation): ReLU ()
+      )
+      (encoder_1): Encoder (
+        (linear): Linear (1000 -> 500)
+        (bn_normalize_clean): BatchNorm1d(500, eps=1e-05, momentum=0.1, affine=False)
+        (bn_normalize): BatchNorm1d(500, eps=1e-05, momentum=0.1, affine=False)
+        (activation): ReLU ()
+      )
+      (encoder_2): Encoder (
+        (linear): Linear (500 -> 250)
+        (bn_normalize_clean): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+        (bn_normalize): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+        (activation): ReLU ()
+      )
+      (encoder_3): Encoder (
+        (linear): Linear (250 -> 250)
+        (bn_normalize_clean): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+        (bn_normalize): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+        (activation): ReLU ()
+      )
+      (encoder_4): Encoder (
+        (linear): Linear (250 -> 250)
+        (bn_normalize_clean): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+        (bn_normalize): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+        (activation): ReLU ()
+      )
+      (encoder_5): Encoder (
+        (linear): Linear (250 -> 10)
+        (bn_normalize_clean): BatchNorm1d(10, eps=1e-05, momentum=0.1, affine=False)
+        (bn_normalize): BatchNorm1d(10, eps=1e-05, momentum=0.1, affine=False)
+        (activation): Softmax ()
+      )
+    )
+  )
+  (de): StackedDecoders (
+    (bn_u_top): BatchNorm1d(10, eps=1e-05, momentum=0.1, affine=False)
+    (decoders): Sequential (
+      (decoder_0): Decoder (
+        (V): Linear (10 -> 250)
+        (bn_normalize): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+      )
+      (decoder_1): Decoder (
+        (V): Linear (250 -> 250)
+        (bn_normalize): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+      )
+      (decoder_2): Decoder (
+        (V): Linear (250 -> 250)
+        (bn_normalize): BatchNorm1d(250, eps=1e-05, momentum=0.1, affine=False)
+      )
+      (decoder_3): Decoder (
+        (V): Linear (250 -> 500)
+        (bn_normalize): BatchNorm1d(500, eps=1e-05, momentum=0.1, affine=False)
+      )
+      (decoder_4): Decoder (
+        (V): Linear (500 -> 1000)
+        (bn_normalize): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=False)
+      )
+      (decoder_5): Decoder (
+        (V): Linear (1000 -> 784)
+        (bn_normalize): BatchNorm1d(784, eps=1e-05, momentum=0.1, affine=False)
+      )
+    )
+    (bottom_decoder): Decoder (
+    )
+  )
+  (bn_image): BatchNorm1d(784, eps=1e-05, momentum=0.1, affine=False)
+)
+======================
+
+==UNSUPERVISED-COSTS==
+[0.1, 0.1, 0.1, 0.1, 0.1, 10.0, 1000.0]
+
+=====================
+TRAINING
+
+Epoch: 1 	 Total Cost: 550.9735 	 Supervised Cost: 2.0765 	 Unsupervised Cost: 548.8970 	 Validation Accuracy: 0.7321
+Epoch: 1 	 Total Cost: 427.1570 	 Supervised Cost: 2.0066 	 Unsupervised Cost: 425.1504 	 Validation Accuracy: 0.7991
+Epoch: 1 	 Total Cost: 350.8330 	 Supervised Cost: 1.9685 	 Unsupervised Cost: 348.8644 	 Validation Accuracy: 0.7557
+Epoch: 1 	 Total Cost: 298.2721 	 Supervised Cost: 1.9439 	 Unsupervised Cost: 296.3282 	 Validation Accuracy: 0.8086
+Epoch: 1 	 Total Cost: 261.9606 	 Supervised Cost: 1.9291 	 Unsupervised Cost: 260.0314 	 Validation Accuracy: 0.7908
+Epoch: 1 	 Total Cost: 238.2991 	 Supervised Cost: 1.9111 	 Unsupervised Cost: 236.3881 	 Validation Accuracy: 0.7832
+Epoch: 1 	 Total Cost: 218.3870 	 Supervised Cost: 1.8966 	 Unsupervised Cost: 216.4904 	 Validation Accuracy: 0.8341
+Epoch: 1 	 Total Cost: 202.6910 	 Supervised Cost: 1.8836 	 Unsupervised Cost: 200.8074 	 Validation Accuracy: 0.7877
+Epoch: 1 	 Total Cost: 191.6323 	 Supervised Cost: 1.8859 	 Unsupervised Cost: 189.7464 	 Validation Accuracy: 0.5965
+Epoch: 1 	 Total Cost: 183.1738 	 Supervised Cost: 1.8982 	 Unsupervised Cost: 181.2756 	 Validation Accuracy: 0.5728
+Epoch: 1 	 Total Cost: 175.2309 	 Supervised Cost: 1.9097 	 Unsupervised Cost: 173.3212 	 Validation Accuracy: 0.5687
+Epoch: 1 	 Total Cost: 167.4628 	 Supervised Cost: 1.9245 	 Unsupervised Cost: 165.5382 	 Validation Accuracy: 0.4546
+Epoch: 1 	 Total Cost: 162.2987 	 Supervised Cost: 1.9351 	 Unsupervised Cost: 160.3636 	 Validation Accuracy: 0.4543
+Epoch: 1 	 Total Cost: 158.2400 	 Supervised Cost: 1.9421 	 Unsupervised Cost: 156.2979 	 Validation Accuracy: 0.5557
+Epoch: 1 	 Total Cost: 154.1734 	 Supervised Cost: 1.9473 	 Unsupervised Cost: 152.2261 	 Validation Accuracy: 0.5283
+Epoch: 2 	 Total Cost: 88.7336 	 Supervised Cost: 2.0193 	 Unsupervised Cost: 86.7143 	 Validation Accuracy: 0.5409
+Epoch: 2 	 Total Cost: 94.6015 	 Supervised Cost: 2.0189 	 Unsupervised Cost: 92.5826 	 Validation Accuracy: 0.4648
+Epoch: 2 	 Total Cost: 92.8685 	 Supervised Cost: 2.0469 	 Unsupervised Cost: 90.8216 	 Validation Accuracy: 0.3824
+Epoch: 2 	 Total Cost: 90.8853 	 Supervised Cost: 2.0813 	 Unsupervised Cost: 88.8041 	 Validation Accuracy: 0.2393
+Epoch: 2 	 Total Cost: 93.3638 	 Supervised Cost: 2.1112 	 Unsupervised Cost: 91.2526 	 Validation Accuracy: 0.2312
+Epoch: 2 	 Total Cost: 91.9885 	 Supervised Cost: 2.1292 	 Unsupervised Cost: 89.8593 	 Validation Accuracy: 0.2425
+Epoch: 2 	 Total Cost: 92.1342 	 Supervised Cost: 2.1401 	 Unsupervised Cost: 89.9940 	 Validation Accuracy: 0.3045
+Epoch: 2 	 Total Cost: 90.7103 	 Supervised Cost: 2.1468 	 Unsupervised Cost: 88.5634 	 Validation Accuracy: 0.3224
+Epoch: 2 	 Total Cost: 89.2156 	 Supervised Cost: 2.1512 	 Unsupervised Cost: 87.0644 	 Validation Accuracy: 0.322
+Epoch: 2 	 Total Cost: 87.9017 	 Supervised Cost: 2.1550 	 Unsupervised Cost: 85.7467 	 Validation Accuracy: 0.3363
+Epoch: 2 	 Total Cost: 86.5533 	 Supervised Cost: 2.1579 	 Unsupervised Cost: 84.3954 	 Validation Accuracy: 0.3222
+Epoch: 2 	 Total Cost: 86.2838 	 Supervised Cost: 2.1606 	 Unsupervised Cost: 84.1232 	 Validation Accuracy: 0.2631
+Epoch: 2 	 Total Cost: 84.2654 	 Supervised Cost: 2.1626 	 Unsupervised Cost: 82.1028 	 Validation Accuracy: 0.2629
+Epoch: 2 	 Total Cost: 83.5138 	 Supervised Cost: 2.1643 	 Unsupervised Cost: 81.3495 	 Validation Accuracy: 0.2571
+Epoch: 2 	 Total Cost: 82.2271 	 Supervised Cost: 2.1662 	 Unsupervised Cost: 80.0609 	 Validation Accuracy: 0.2515
+Epoch: 3 	 Total Cost: 73.1144 	 Supervised Cost: 2.1938 	 Unsupervised Cost: 70.9206 	 Validation Accuracy: 0.261
+Epoch: 3 	 Total Cost: 73.2463 	 Supervised Cost: 2.1933 	 Unsupervised Cost: 71.0529 	 Validation Accuracy: 0.2576
+Epoch: 3 	 Total Cost: 88.0400 	 Supervised Cost: 2.1954 	 Unsupervised Cost: 85.8446 	 Validation Accuracy: 0.2489
+Epoch: 3 	 Total Cost: 91.2248 	 Supervised Cost: 2.1973 	 Unsupervised Cost: 89.0275 	 Validation Accuracy: 0.2495
+Epoch: 3 	 Total Cost: 88.4062 	 Supervised Cost: 2.1991 	 Unsupervised Cost: 86.2071 	 Validation Accuracy: 0.246
+Epoch: 3 	 Total Cost: 86.3741 	 Supervised Cost: 2.1991 	 Unsupervised Cost: 84.1750 	 Validation Accuracy: 0.2558
+Epoch: 3 	 Total Cost: 86.7902 	 Supervised Cost: 2.1989 	 Unsupervised Cost: 84.5913 	 Validation Accuracy: 0.2586
+Epoch: 3 	 Total Cost: 83.9120 	 Supervised Cost: 2.1991 	 Unsupervised Cost: 81.7129 	 Validation Accuracy: 0.252
+Epoch: 3 	 Total Cost: 82.5111 	 Supervised Cost: 2.1990 	 Unsupervised Cost: 80.3121 	 Validation Accuracy: 0.2414
+Epoch: 3 	 Total Cost: 82.1774 	 Supervised Cost: 2.1992 	 Unsupervised Cost: 79.9781 	 Validation Accuracy: 0.2381
+Epoch: 3 	 Total Cost: 82.5350 	 Supervised Cost: 2.2000 	 Unsupervised Cost: 80.3351 	 Validation Accuracy: 0.2505
+Epoch: 3 	 Total Cost: 84.1461 	 Supervised Cost: 2.2001 	 Unsupervised Cost: 81.9460 	 Validation Accuracy: 0.2463
+Epoch: 3 	 Total Cost: 83.8969 	 Supervised Cost: 2.1999 	 Unsupervised Cost: 81.6970 	 Validation Accuracy: 0.2561
+Epoch: 3 	 Total Cost: 83.9111 	 Supervised Cost: 2.1995 	 Unsupervised Cost: 81.7117 	 Validation Accuracy: 0.2596
+Epoch: 3 	 Total Cost: 82.5549 	 Supervised Cost: 2.1988 	 Unsupervised Cost: 80.3560 	 Validation Accuracy: 0.2605
+Epoch: 4 	 Total Cost: 67.2953 	 Supervised Cost: 2.1860 	 Unsupervised Cost: 65.1093 	 Validation Accuracy: 0.2599
+Epoch: 4 	 Total Cost: 73.2184 	 Supervised Cost: 2.1872 	 Unsupervised Cost: 71.0313 	 Validation Accuracy: 0.2596
+Epoch: 4 	 Total Cost: 76.5452 	 Supervised Cost: 2.1866 	 Unsupervised Cost: 74.3586 	 Validation Accuracy: 0.2621
+Epoch: 4 	 Total Cost: 76.6005 	 Supervised Cost: 2.1864 	 Unsupervised Cost: 74.4141 	 Validation Accuracy: 0.2727
+Epoch: 4 	 Total Cost: 80.3451 	 Supervised Cost: 2.1859 	 Unsupervised Cost: 78.1592 	 Validation Accuracy: 0.2684
+Epoch: 4 	 Total Cost: 79.6779 	 Supervised Cost: 2.1854 	 Unsupervised Cost: 77.4924 	 Validation Accuracy: 0.2592
+Epoch: 4 	 Total Cost: 79.3560 	 Supervised Cost: 2.1855 	 Unsupervised Cost: 77.1706 	 Validation Accuracy: 0.2655
+Epoch: 4 	 Total Cost: 82.6309 	 Supervised Cost: 2.1851 	 Unsupervised Cost: 80.4458 	 Validation Accuracy: 0.2654
+Epoch: 4 	 Total Cost: 82.1727 	 Supervised Cost: 2.1848 	 Unsupervised Cost: 79.9879 	 Validation Accuracy: 0.2648
+Epoch: 4 	 Total Cost: 81.8601 	 Supervised Cost: 2.1852 	 Unsupervised Cost: 79.6749 	 Validation Accuracy: 0.268
+Epoch: 4 	 Total Cost: 81.4769 	 Supervised Cost: 2.1857 	 Unsupervised Cost: 79.2912 	 Validation Accuracy: 0.2716
+Epoch: 4 	 Total Cost: 81.4360 	 Supervised Cost: 2.1864 	 Unsupervised Cost: 79.2496 	 Validation Accuracy: 0.2667
+Epoch: 4 	 Total Cost: 80.5623 	 Supervised Cost: 2.1870 	 Unsupervised Cost: 78.3753 	 Validation Accuracy: 0.2733
+Epoch: 4 	 Total Cost: 79.6876 	 Supervised Cost: 2.1872 	 Unsupervised Cost: 77.5004 	 Validation Accuracy: 0.2695
+Epoch: 4 	 Total Cost: 79.0121 	 Supervised Cost: 2.1876 	 Unsupervised Cost: 76.8244 	 Validation Accuracy: 0.2715
+Epoch: 5 	 Total Cost: 87.9847 	 Supervised Cost: 2.1865 	 Unsupervised Cost: 85.7982 	 Validation Accuracy: 0.2728
+Epoch: 5 	 Total Cost: 83.1427 	 Supervised Cost: 2.2025 	 Unsupervised Cost: 80.9402 	 Validation Accuracy: 0.2187
+Epoch: 5 	 Total Cost: 77.0477 	 Supervised Cost: 2.2191 	 Unsupervised Cost: 74.8286 	 Validation Accuracy: 0.2254
+Epoch: 5 	 Total Cost: 73.4575 	 Supervised Cost: 2.2231 	 Unsupervised Cost: 71.2343 	 Validation Accuracy: 0.2374
+Epoch: 5 	 Total Cost: 73.2923 	 Supervised Cost: 2.2223 	 Unsupervised Cost: 71.0700 	 Validation Accuracy: 0.2409
+Epoch: 5 	 Total Cost: 75.7295 	 Supervised Cost: 2.2204 	 Unsupervised Cost: 73.5091 	 Validation Accuracy: 0.2852
+Epoch: 5 	 Total Cost: 73.5604 	 Supervised Cost: 2.2166 	 Unsupervised Cost: 71.3438 	 Validation Accuracy: 0.2973
+Epoch: 5 	 Total Cost: 73.3900 	 Supervised Cost: 2.2127 	 Unsupervised Cost: 71.1772 	 Validation Accuracy: 0.2828
+Epoch: 5 	 Total Cost: 73.4562 	 Supervised Cost: 2.2094 	 Unsupervised Cost: 71.2468 	 Validation Accuracy: 0.2758
+Epoch: 5 	 Total Cost: 72.3715 	 Supervised Cost: 2.2058 	 Unsupervised Cost: 70.1656 	 Validation Accuracy: 0.292
+Epoch: 5 	 Total Cost: 72.2904 	 Supervised Cost: 2.2033 	 Unsupervised Cost: 70.0872 	 Validation Accuracy: 0.319
+Epoch: 5 	 Total Cost: 72.0026 	 Supervised Cost: 2.2011 	 Unsupervised Cost: 69.8015 	 Validation Accuracy: 0.3193
+Epoch: 5 	 Total Cost: 71.1614 	 Supervised Cost: 2.1986 	 Unsupervised Cost: 68.9628 	 Validation Accuracy: 0.3277
+Epoch: 5 	 Total Cost: 72.7715 	 Supervised Cost: 2.1966 	 Unsupervised Cost: 70.5750 	 Validation Accuracy: 0.3223
+Epoch: 5 	 Total Cost: 74.2227 	 Supervised Cost: 2.1961 	 Unsupervised Cost: 72.0266 	 Validation Accuracy: 0.2753
+Epoch: 6 	 Total Cost: 65.8542 	 Supervised Cost: 2.2120 	 Unsupervised Cost: 63.6422 	 Validation Accuracy: 0.22
+Epoch: 6 	 Total Cost: 64.3261 	 Supervised Cost: 2.2253 	 Unsupervised Cost: 62.1009 	 Validation Accuracy: 0.201
+Epoch: 6 	 Total Cost: 67.8102 	 Supervised Cost: 2.2259 	 Unsupervised Cost: 65.5844 	 Validation Accuracy: 0.2149
+Epoch: 6 	 Total Cost: 70.3805 	 Supervised Cost: 2.2321 	 Unsupervised Cost: 68.1484 	 Validation Accuracy: 0.1908
+Epoch: 6 	 Total Cost: 68.2204 	 Supervised Cost: 2.2374 	 Unsupervised Cost: 65.9830 	 Validation Accuracy: 0.2342
+Epoch: 6 	 Total Cost: 69.4019 	 Supervised Cost: 2.2388 	 Unsupervised Cost: 67.1632 	 Validation Accuracy: 0.2479
+Epoch: 6 	 Total Cost: 67.5898 	 Supervised Cost: 2.2387 	 Unsupervised Cost: 65.3511 	 Validation Accuracy: 0.254
+Epoch: 6 	 Total Cost: 67.2521 	 Supervised Cost: 2.2374 	 Unsupervised Cost: 65.0148 	 Validation Accuracy: 0.2757
+Epoch: 6 	 Total Cost: 66.0649 	 Supervised Cost: 2.2344 	 Unsupervised Cost: 63.8306 	 Validation Accuracy: 0.3081
+Epoch: 6 	 Total Cost: 66.0666 	 Supervised Cost: 2.2300 	 Unsupervised Cost: 63.8366 	 Validation Accuracy: 0.3068
+Epoch: 6 	 Total Cost: 66.8038 	 Supervised Cost: 2.2253 	 Unsupervised Cost: 64.5784 	 Validation Accuracy: 0.3344
+Epoch: 6 	 Total Cost: 66.7807 	 Supervised Cost: 2.2208 	 Unsupervised Cost: 64.5599 	 Validation Accuracy: 0.3579
+Epoch: 6 	 Total Cost: 66.7902 	 Supervised Cost: 2.2175 	 Unsupervised Cost: 64.5727 	 Validation Accuracy: 0.3334
+Epoch: 6 	 Total Cost: 65.8723 	 Supervised Cost: 2.2158 	 Unsupervised Cost: 63.6565 	 Validation Accuracy: 0.3068
+Epoch: 6 	 Total Cost: 65.3281 	 Supervised Cost: 2.2135 	 Unsupervised Cost: 63.1146 	 Validation Accuracy: 0.3045
+Epoch: 7 	 Total Cost: 83.1965 	 Supervised Cost: 2.1730 	 Unsupervised Cost: 81.0234 	 Validation Accuracy: 0.332
+Epoch: 7 	 Total Cost: 93.2587 	 Supervised Cost: 2.1723 	 Unsupervised Cost: 91.0864 	 Validation Accuracy: 0.3326
+Epoch: 7 	 Total Cost: 87.3421 	 Supervised Cost: 2.1750 	 Unsupervised Cost: 85.1672 	 Validation Accuracy: 0.3375
+Epoch: 7 	 Total Cost: 84.1001 	 Supervised Cost: 2.1748 	 Unsupervised Cost: 81.9253 	 Validation Accuracy: 0.3364
+Epoch: 7 	 Total Cost: 84.1558 	 Supervised Cost: 2.1739 	 Unsupervised Cost: 81.9819 	 Validation Accuracy: 0.337
+Epoch: 7 	 Total Cost: 82.1699 	 Supervised Cost: 2.1719 	 Unsupervised Cost: 79.9980 	 Validation Accuracy: 0.3385
+Epoch: 7 	 Total Cost: 81.4186 	 Supervised Cost: 2.1690 	 Unsupervised Cost: 79.2495 	 Validation Accuracy: 0.3389
+Epoch: 7 	 Total Cost: 81.4082 	 Supervised Cost: 2.1658 	 Unsupervised Cost: 79.2425 	 Validation Accuracy: 0.345
+Epoch: 7 	 Total Cost: 82.1518 	 Supervised Cost: 2.1644 	 Unsupervised Cost: 79.9874 	 Validation Accuracy: 0.318
+Epoch: 7 	 Total Cost: 82.6243 	 Supervised Cost: 2.1659 	 Unsupervised Cost: 80.4584 	 Validation Accuracy: 0.2989
+Epoch: 7 	 Total Cost: 84.8085 	 Supervised Cost: 2.1690 	 Unsupervised Cost: 82.6395 	 Validation Accuracy: 0.2878
+Epoch: 7 	 Total Cost: 84.5991 	 Supervised Cost: 2.1720 	 Unsupervised Cost: 82.4271 	 Validation Accuracy: 0.2787
+Epoch: 7 	 Total Cost: 83.8585 	 Supervised Cost: 2.1763 	 Unsupervised Cost: 81.6822 	 Validation Accuracy: 0.2443
+Epoch: 7 	 Total Cost: 82.6279 	 Supervised Cost: 2.1807 	 Unsupervised Cost: 80.4472 	 Validation Accuracy: 0.247
+Epoch: 7 	 Total Cost: 82.7202 	 Supervised Cost: 2.1844 	 Unsupervised Cost: 80.5358 	 Validation Accuracy: 0.2592
+Epoch: 8 	 Total Cost: 71.3371 	 Supervised Cost: 2.2311 	 Unsupervised Cost: 69.1060 	 Validation Accuracy: 0.2615
+Epoch: 8 	 Total Cost: 68.3188 	 Supervised Cost: 2.2296 	 Unsupervised Cost: 66.0892 	 Validation Accuracy: 0.2668
+Epoch: 8 	 Total Cost: 70.1114 	 Supervised Cost: 2.2283 	 Unsupervised Cost: 67.8831 	 Validation Accuracy: 0.2649
+Epoch: 8 	 Total Cost: 71.6156 	 Supervised Cost: 2.2265 	 Unsupervised Cost: 69.3891 	 Validation Accuracy: 0.2693
+Epoch: 8 	 Total Cost: 72.9759 	 Supervised Cost: 2.2249 	 Unsupervised Cost: 70.7510 	 Validation Accuracy: 0.2555
+Epoch: 8 	 Total Cost: 73.5341 	 Supervised Cost: 2.2261 	 Unsupervised Cost: 71.3080 	 Validation Accuracy: 0.2126
+Epoch: 8 	 Total Cost: 73.0574 	 Supervised Cost: 2.2272 	 Unsupervised Cost: 70.8302 	 Validation Accuracy: 0.2158
+Epoch: 8 	 Total Cost: 74.0336 	 Supervised Cost: 2.2281 	 Unsupervised Cost: 71.8055 	 Validation Accuracy: 0.2166
+Epoch: 8 	 Total Cost: 75.1853 	 Supervised Cost: 2.2290 	 Unsupervised Cost: 72.9563 	 Validation Accuracy: 0.2162
+Epoch: 8 	 Total Cost: 74.8266 	 Supervised Cost: 2.2297 	 Unsupervised Cost: 72.5969 	 Validation Accuracy: 0.2203
+Epoch: 8 	 Total Cost: 74.9034 	 Supervised Cost: 2.2288 	 Unsupervised Cost: 72.6747 	 Validation Accuracy: 0.2532
+Epoch: 8 	 Total Cost: 73.3498 	 Supervised Cost: 2.2274 	 Unsupervised Cost: 71.1224 	 Validation Accuracy: 0.2499
+Epoch: 8 	 Total Cost: 71.5804 	 Supervised Cost: 2.2266 	 Unsupervised Cost: 69.3539 	 Validation Accuracy: 0.2511
+Epoch: 8 	 Total Cost: 71.0686 	 Supervised Cost: 2.2257 	 Unsupervised Cost: 68.8428 	 Validation Accuracy: 0.2545
+Epoch: 8 	 Total Cost: 70.1834 	 Supervised Cost: 2.2247 	 Unsupervised Cost: 67.9587 	 Validation Accuracy: 0.2639
+Epoch: 9 	 Total Cost: 75.0889 	 Supervised Cost: 2.2040 	 Unsupervised Cost: 72.8849 	 Validation Accuracy: 0.256
+Epoch: 9 	 Total Cost: 86.2165 	 Supervised Cost: 2.2011 	 Unsupervised Cost: 84.0154 	 Validation Accuracy: 0.2709
+Epoch: 9 	 Total Cost: 83.0000 	 Supervised Cost: 2.1984 	 Unsupervised Cost: 80.8016 	 Validation Accuracy: 0.267
+Epoch: 9 	 Total Cost: 82.4837 	 Supervised Cost: 2.1965 	 Unsupervised Cost: 80.2872 	 Validation Accuracy: 0.2654
+Epoch: 9 	 Total Cost: 81.4051 	 Supervised Cost: 2.1948 	 Unsupervised Cost: 79.2103 	 Validation Accuracy: 0.2744
+Epoch: 9 	 Total Cost: 78.3762 	 Supervised Cost: 2.1937 	 Unsupervised Cost: 76.1826 	 Validation Accuracy: 0.2797
+Epoch: 9 	 Total Cost: 75.0341 	 Supervised Cost: 2.1923 	 Unsupervised Cost: 72.8417 	 Validation Accuracy: 0.2793
+Epoch: 9 	 Total Cost: 72.9157 	 Supervised Cost: 2.1909 	 Unsupervised Cost: 70.7248 	 Validation Accuracy: 0.2834
+Epoch: 9 	 Total Cost: 72.0464 	 Supervised Cost: 2.1897 	 Unsupervised Cost: 69.8567 	 Validation Accuracy: 0.2838
+Epoch: 9 	 Total Cost: 71.2212 	 Supervised Cost: 2.1885 	 Unsupervised Cost: 69.0328 	 Validation Accuracy: 0.2839
+Epoch: 9 	 Total Cost: 71.4414 	 Supervised Cost: 2.1880 	 Unsupervised Cost: 69.2533 	 Validation Accuracy: 0.2814
+Epoch: 9 	 Total Cost: 70.4998 	 Supervised Cost: 2.1876 	 Unsupervised Cost: 68.3122 	 Validation Accuracy: 0.2845
+Epoch: 9 	 Total Cost: 70.1095 	 Supervised Cost: 2.1871 	 Unsupervised Cost: 67.9224 	 Validation Accuracy: 0.2812
+Epoch: 9 	 Total Cost: 69.9059 	 Supervised Cost: 2.1868 	 Unsupervised Cost: 67.7191 	 Validation Accuracy: 0.2816
+Epoch: 9 	 Total Cost: 69.8157 	 Supervised Cost: 2.1870 	 Unsupervised Cost: 67.6287 	 Validation Accuracy: 0.2564
+Epoch: 10 	 Total Cost: 61.6264 	 Supervised Cost: 2.2525 	 Unsupervised Cost: 59.3739 	 Validation Accuracy: 0.1798
+Epoch: 10 	 Total Cost: 55.6888 	 Supervised Cost: 2.2496 	 Unsupervised Cost: 53.4392 	 Validation Accuracy: 0.1832
+Epoch: 10 	 Total Cost: 55.3519 	 Supervised Cost: 2.2481 	 Unsupervised Cost: 53.1037 	 Validation Accuracy: 0.1855
+Epoch: 10 	 Total Cost: 54.4047 	 Supervised Cost: 2.2465 	 Unsupervised Cost: 52.1582 	 Validation Accuracy: 0.182
+Epoch: 10 	 Total Cost: 53.5091 	 Supervised Cost: 2.2462 	 Unsupervised Cost: 51.2628 	 Validation Accuracy: 0.1874
+Epoch: 10 	 Total Cost: 53.1895 	 Supervised Cost: 2.2457 	 Unsupervised Cost: 50.9438 	 Validation Accuracy: 0.1896
+Epoch: 10 	 Total Cost: 52.6875 	 Supervised Cost: 2.2451 	 Unsupervised Cost: 50.4425 	 Validation Accuracy: 0.188
+Epoch: 10 	 Total Cost: 52.6361 	 Supervised Cost: 2.2446 	 Unsupervised Cost: 50.3915 	 Validation Accuracy: 0.1913
+Epoch: 10 	 Total Cost: 52.1124 	 Supervised Cost: 2.2442 	 Unsupervised Cost: 49.8682 	 Validation Accuracy: 0.1859
+Epoch: 10 	 Total Cost: 54.1949 	 Supervised Cost: 2.2440 	 Unsupervised Cost: 51.9509 	 Validation Accuracy: 0.1906
+Epoch: 10 	 Total Cost: 54.1232 	 Supervised Cost: 2.2438 	 Unsupervised Cost: 51.8794 	 Validation Accuracy: 0.1919
+Epoch: 10 	 Total Cost: 53.8018 	 Supervised Cost: 2.2436 	 Unsupervised Cost: 51.5583 	 Validation Accuracy: 0.1894
+Epoch: 10 	 Total Cost: 53.3252 	 Supervised Cost: 2.2432 	 Unsupervised Cost: 51.0820 	 Validation Accuracy: 0.1944
+Epoch: 10 	 Total Cost: 55.9798 	 Supervised Cost: 2.2425 	 Unsupervised Cost: 53.7373 	 Validation Accuracy: 0.1978
+Epoch: 10 	 Total Cost: 56.4136 	 Supervised Cost: 2.2421 	 Unsupervised Cost: 54.1715 	 Validation Accuracy: 0.199
+Epoch: 11 	 Total Cost: 52.9115 	 Supervised Cost: 2.2357 	 Unsupervised Cost: 50.6758 	 Validation Accuracy: 0.1922
+Epoch: 11 	 Total Cost: 57.2202 	 Supervised Cost: 2.2355 	 Unsupervised Cost: 54.9848 	 Validation Accuracy: 0.2178
+Epoch: 11 	 Total Cost: 58.7296 	 Supervised Cost: 2.2339 	 Unsupervised Cost: 56.4957 	 Validation Accuracy: 0.2245
+Epoch: 11 	 Total Cost: 59.1785 	 Supervised Cost: 2.2327 	 Unsupervised Cost: 56.9458 	 Validation Accuracy: 0.2267
+Epoch: 11 	 Total Cost: 58.8833 	 Supervised Cost: 2.2317 	 Unsupervised Cost: 56.6515 	 Validation Accuracy: 0.216
+Epoch: 11 	 Total Cost: 60.3379 	 Supervised Cost: 2.2309 	 Unsupervised Cost: 58.1070 	 Validation Accuracy: 0.2202
+Epoch: 11 	 Total Cost: 61.6377 	 Supervised Cost: 2.2296 	 Unsupervised Cost: 59.4081 	 Validation Accuracy: 0.2221
+Epoch: 11 	 Total Cost: 61.9218 	 Supervised Cost: 2.2284 	 Unsupervised Cost: 59.6934 	 Validation Accuracy: 0.2387
+Epoch: 11 	 Total Cost: 63.8965 	 Supervised Cost: 2.2268 	 Unsupervised Cost: 61.6697 	 Validation Accuracy: 0.2358
+Epoch: 11 	 Total Cost: 62.9224 	 Supervised Cost: 2.2260 	 Unsupervised Cost: 60.6964 	 Validation Accuracy: 0.2343
+Epoch: 11 	 Total Cost: 62.2254 	 Supervised Cost: 2.2255 	 Unsupervised Cost: 59.9998 	 Validation Accuracy: 0.2502
+Epoch: 11 	 Total Cost: 61.9019 	 Supervised Cost: 2.2245 	 Unsupervised Cost: 59.6775 	 Validation Accuracy: 0.2475
+Epoch: 11 	 Total Cost: 61.8140 	 Supervised Cost: 2.2232 	 Unsupervised Cost: 59.5908 	 Validation Accuracy: 0.292
+Epoch: 11 	 Total Cost: 61.3285 	 Supervised Cost: 2.2218 	 Unsupervised Cost: 59.1067 	 Validation Accuracy: 0.2604
+Epoch: 11 	 Total Cost: 60.8978 	 Supervised Cost: 2.2209 	 Unsupervised Cost: 58.6769 	 Validation Accuracy: 0.2003
+Epoch: 12 	 Total Cost: 68.7332 	 Supervised Cost: 2.2391 	 Unsupervised Cost: 66.4941 	 Validation Accuracy: 0.2025
+Epoch: 12 	 Total Cost: 62.9622 	 Supervised Cost: 2.2394 	 Unsupervised Cost: 60.7228 	 Validation Accuracy: 0.2039
+Epoch: 12 	 Total Cost: 69.5101 	 Supervised Cost: 2.2384 	 Unsupervised Cost: 67.2718 	 Validation Accuracy: 0.2037
+Epoch: 12 	 Total Cost: 65.6796 	 Supervised Cost: 2.2387 	 Unsupervised Cost: 63.4409 	 Validation Accuracy: 0.2049
+Epoch: 12 	 Total Cost: 66.7399 	 Supervised Cost: 2.2382 	 Unsupervised Cost: 64.5017 	 Validation Accuracy: 0.2048
+Epoch: 12 	 Total Cost: 64.3115 	 Supervised Cost: 2.2381 	 Unsupervised Cost: 62.0734 	 Validation Accuracy: 0.2031
+Epoch: 12 	 Total Cost: 62.4230 	 Supervised Cost: 2.2379 	 Unsupervised Cost: 60.1851 	 Validation Accuracy: 0.2052
+Epoch: 12 	 Total Cost: 60.3900 	 Supervised Cost: 2.2373 	 Unsupervised Cost: 58.1527 	 Validation Accuracy: 0.2075
+Epoch: 12 	 Total Cost: 58.5694 	 Supervised Cost: 2.2369 	 Unsupervised Cost: 56.3324 	 Validation Accuracy: 0.2087
+Epoch: 12 	 Total Cost: 58.1173 	 Supervised Cost: 2.2365 	 Unsupervised Cost: 55.8808 	 Validation Accuracy: 0.209
+Epoch: 12 	 Total Cost: 58.3700 	 Supervised Cost: 2.2362 	 Unsupervised Cost: 56.1338 	 Validation Accuracy: 0.2036
+Epoch: 12 	 Total Cost: 58.2055 	 Supervised Cost: 2.2363 	 Unsupervised Cost: 55.9692 	 Validation Accuracy: 0.2038
+Epoch: 12 	 Total Cost: 57.8816 	 Supervised Cost: 2.2360 	 Unsupervised Cost: 55.6456 	 Validation Accuracy: 0.2044
+Epoch: 12 	 Total Cost: 58.0788 	 Supervised Cost: 2.2359 	 Unsupervised Cost: 55.8429 	 Validation Accuracy: 0.2041
+Epoch: 12 	 Total Cost: 57.5359 	 Supervised Cost: 2.2358 	 Unsupervised Cost: 55.3000 	 Validation Accuracy: 0.2067
+Epoch: 13 	 Total Cost: 72.6216 	 Supervised Cost: 2.2339 	 Unsupervised Cost: 70.3877 	 Validation Accuracy: 0.2094
+Epoch: 13 	 Total Cost: 72.7142 	 Supervised Cost: 2.2326 	 Unsupervised Cost: 70.4816 	 Validation Accuracy: 0.211
+Epoch: 13 	 Total Cost: 68.2693 	 Supervised Cost: 2.2319 	 Unsupervised Cost: 66.0374 	 Validation Accuracy: 0.2159
+Epoch: 13 	 Total Cost: 65.6347 	 Supervised Cost: 2.2309 	 Unsupervised Cost: 63.4038 	 Validation Accuracy: 0.2114
+Epoch: 13 	 Total Cost: 64.7060 	 Supervised Cost: 2.2304 	 Unsupervised Cost: 62.4756 	 Validation Accuracy: 0.213
+Epoch: 13 	 Total Cost: 63.0191 	 Supervised Cost: 2.2299 	 Unsupervised Cost: 60.7892 	 Validation Accuracy: 0.2193
+Epoch: 13 	 Total Cost: 61.2665 	 Supervised Cost: 2.2295 	 Unsupervised Cost: 59.0370 	 Validation Accuracy: 0.2191
+Epoch: 13 	 Total Cost: 61.8577 	 Supervised Cost: 2.2291 	 Unsupervised Cost: 59.6286 	 Validation Accuracy: 0.2137
+Epoch: 13 	 Total Cost: 61.3955 	 Supervised Cost: 2.2294 	 Unsupervised Cost: 59.1661 	 Validation Accuracy: 0.209
+Epoch: 13 	 Total Cost: 61.1257 	 Supervised Cost: 2.2298 	 Unsupervised Cost: 58.8958 	 Validation Accuracy: 0.2123
+Epoch: 13 	 Total Cost: 61.0087 	 Supervised Cost: 2.2300 	 Unsupervised Cost: 58.7788 	 Validation Accuracy: 0.1993
+Epoch: 13 	 Total Cost: 61.0160 	 Supervised Cost: 2.2303 	 Unsupervised Cost: 58.7857 	 Validation Accuracy: 0.1974
+Epoch: 13 	 Total Cost: 60.4915 	 Supervised Cost: 2.2307 	 Unsupervised Cost: 58.2608 	 Validation Accuracy: 0.1987
+Epoch: 13 	 Total Cost: 59.4273 	 Supervised Cost: 2.2308 	 Unsupervised Cost: 57.1966 	 Validation Accuracy: 0.1983
+Epoch: 13 	 Total Cost: 59.5587 	 Supervised Cost: 2.2309 	 Unsupervised Cost: 57.3278 	 Validation Accuracy: 0.2012
+Epoch: 14 	 Total Cost: 66.7181 	 Supervised Cost: 2.2273 	 Unsupervised Cost: 64.4908 	 Validation Accuracy: 0.1932
+Epoch: 14 	 Total Cost: 80.8125 	 Supervised Cost: 2.2282 	 Unsupervised Cost: 78.5844 	 Validation Accuracy: 0.1984
+Epoch: 14 	 Total Cost: 72.0786 	 Supervised Cost: 2.2286 	 Unsupervised Cost: 69.8499 	 Validation Accuracy: 0.197
+Epoch: 14 	 Total Cost: 68.1743 	 Supervised Cost: 2.2300 	 Unsupervised Cost: 65.9443 	 Validation Accuracy: 0.1995
+Epoch: 14 	 Total Cost: 65.5049 	 Supervised Cost: 2.2319 	 Unsupervised Cost: 63.2730 	 Validation Accuracy: 0.1999
+Epoch: 14 	 Total Cost: 64.2896 	 Supervised Cost: 2.2321 	 Unsupervised Cost: 62.0576 	 Validation Accuracy: 0.1988
+Epoch: 14 	 Total Cost: 62.4804 	 Supervised Cost: 2.2326 	 Unsupervised Cost: 60.2477 	 Validation Accuracy: 0.1949
+Epoch: 14 	 Total Cost: 61.2478 	 Supervised Cost: 2.2335 	 Unsupervised Cost: 59.0144 	 Validation Accuracy: 0.1946
+Epoch: 14 	 Total Cost: 59.6653 	 Supervised Cost: 2.2343 	 Unsupervised Cost: 57.4309 	 Validation Accuracy: 0.1975
+Epoch: 14 	 Total Cost: 58.2248 	 Supervised Cost: 2.2348 	 Unsupervised Cost: 55.9900 	 Validation Accuracy: 0.1936
+Epoch: 14 	 Total Cost: 58.3709 	 Supervised Cost: 2.2351 	 Unsupervised Cost: 56.1358 	 Validation Accuracy: 0.1977
+Epoch: 14 	 Total Cost: 58.1186 	 Supervised Cost: 2.2353 	 Unsupervised Cost: 55.8833 	 Validation Accuracy: 0.2002
+Epoch: 14 	 Total Cost: 57.6126 	 Supervised Cost: 2.2354 	 Unsupervised Cost: 55.3772 	 Validation Accuracy: 0.2021
+Epoch: 14 	 Total Cost: 57.5781 	 Supervised Cost: 2.2354 	 Unsupervised Cost: 55.3428 	 Validation Accuracy: 0.206
+Epoch: 14 	 Total Cost: 57.4099 	 Supervised Cost: 2.2356 	 Unsupervised Cost: 55.1744 	 Validation Accuracy: 0.1875
+Epoch: 15 	 Total Cost: 85.3538 	 Supervised Cost: 2.2464 	 Unsupervised Cost: 83.1075 	 Validation Accuracy: 0.1579
+Epoch: 15 	 Total Cost: 76.8993 	 Supervised Cost: 2.2576 	 Unsupervised Cost: 74.6417 	 Validation Accuracy: 0.1395
+Epoch: 15 	 Total Cost: 69.6807 	 Supervised Cost: 2.2613 	 Unsupervised Cost: 67.4194 	 Validation Accuracy: 0.1422
+Epoch: 15 	 Total Cost: 64.3913 	 Supervised Cost: 2.2627 	 Unsupervised Cost: 62.1286 	 Validation Accuracy: 0.15
+Epoch: 15 	 Total Cost: 64.2598 	 Supervised Cost: 2.2626 	 Unsupervised Cost: 61.9972 	 Validation Accuracy: 0.1492
+Epoch: 15 	 Total Cost: 68.8505 	 Supervised Cost: 2.2620 	 Unsupervised Cost: 66.5885 	 Validation Accuracy: 0.1537
+Epoch: 15 	 Total Cost: 73.6140 	 Supervised Cost: 2.2623 	 Unsupervised Cost: 71.3517 	 Validation Accuracy: 0.1695
+Epoch: 15 	 Total Cost: 75.8000 	 Supervised Cost: 2.2628 	 Unsupervised Cost: 73.5372 	 Validation Accuracy: 0.168
+Epoch: 15 	 Total Cost: 75.2754 	 Supervised Cost: 2.2633 	 Unsupervised Cost: 73.0121 	 Validation Accuracy: 0.1633
+Epoch: 15 	 Total Cost: 73.7759 	 Supervised Cost: 2.2636 	 Unsupervised Cost: 71.5123 	 Validation Accuracy: 0.1713
+Epoch: 15 	 Total Cost: 70.9970 	 Supervised Cost: 2.2635 	 Unsupervised Cost: 68.7334 	 Validation Accuracy: 0.1756
+Epoch: 15 	 Total Cost: 69.5395 	 Supervised Cost: 2.2632 	 Unsupervised Cost: 67.2763 	 Validation Accuracy: 0.1804
+Epoch: 15 	 Total Cost: 69.4039 	 Supervised Cost: 2.2634 	 Unsupervised Cost: 67.1405 	 Validation Accuracy: 0.1748
+Epoch: 15 	 Total Cost: 70.7192 	 Supervised Cost: 2.2636 	 Unsupervised Cost: 68.4556 	 Validation Accuracy: 0.1772
+Epoch: 15 	 Total Cost: 70.4895 	 Supervised Cost: 2.2637 	 Unsupervised Cost: 68.2258 	 Validation Accuracy: 0.1738
+Epoch: 16 	 Total Cost: 67.1379 	 Supervised Cost: 2.2678 	 Unsupervised Cost: 64.8701 	 Validation Accuracy: 0.1739
+Epoch: 16 	 Total Cost: 59.0976 	 Supervised Cost: 2.2694 	 Unsupervised Cost: 56.8282 	 Validation Accuracy: 0.1709
+Epoch: 16 	 Total Cost: 56.2306 	 Supervised Cost: 2.2721 	 Unsupervised Cost: 53.9585 	 Validation Accuracy: 0.1593
+Epoch: 16 	 Total Cost: 53.4383 	 Supervised Cost: 2.2737 	 Unsupervised Cost: 51.1647 	 Validation Accuracy: 0.1606
+Epoch: 16 	 Total Cost: 53.6414 	 Supervised Cost: 2.2733 	 Unsupervised Cost: 51.3681 	 Validation Accuracy: 0.168
+Epoch: 16 	 Total Cost: 53.1597 	 Supervised Cost: 2.2723 	 Unsupervised Cost: 50.8874 	 Validation Accuracy: 0.1791
+Epoch: 16 	 Total Cost: 51.9200 	 Supervised Cost: 2.2716 	 Unsupervised Cost: 49.6484 	 Validation Accuracy: 0.1848
+Epoch: 16 	 Total Cost: 50.3218 	 Supervised Cost: 2.2711 	 Unsupervised Cost: 48.0507 	 Validation Accuracy: 0.1836
+Epoch: 16 	 Total Cost: 50.3889 	 Supervised Cost: 2.2705 	 Unsupervised Cost: 48.1184 	 Validation Accuracy: 0.1847
+Epoch: 16 	 Total Cost: 50.5346 	 Supervised Cost: 2.2695 	 Unsupervised Cost: 48.2651 	 Validation Accuracy: 0.2005
+Epoch: 16 	 Total Cost: 51.0243 	 Supervised Cost: 2.2688 	 Unsupervised Cost: 48.7554 	 Validation Accuracy: 0.2022
+Epoch: 16 	 Total Cost: 51.3565 	 Supervised Cost: 2.2681 	 Unsupervised Cost: 49.0884 	 Validation Accuracy: 0.202
+Epoch: 16 	 Total Cost: 51.1049 	 Supervised Cost: 2.2674 	 Unsupervised Cost: 48.8375 	 Validation Accuracy: 0.2051
+Epoch: 16 	 Total Cost: 50.6423 	 Supervised Cost: 2.2666 	 Unsupervised Cost: 48.3758 	 Validation Accuracy: 0.2119
+Epoch: 16 	 Total Cost: 50.2281 	 Supervised Cost: 2.2657 	 Unsupervised Cost: 47.9624 	 Validation Accuracy: 0.2168
+Epoch: 17 	 Total Cost: 38.7718 	 Supervised Cost: 2.2524 	 Unsupervised Cost: 36.5194 	 Validation Accuracy: 0.2061
+Epoch: 17 	 Total Cost: 44.7239 	 Supervised Cost: 2.2502 	 Unsupervised Cost: 42.4737 	 Validation Accuracy: 0.2004
+Epoch: 17 	 Total Cost: 46.3951 	 Supervised Cost: 2.2496 	 Unsupervised Cost: 44.1455 	 Validation Accuracy: 0.2008
+Epoch: 17 	 Total Cost: 46.7857 	 Supervised Cost: 2.2492 	 Unsupervised Cost: 44.5365 	 Validation Accuracy: 0.2031
+Epoch: 17 	 Total Cost: 47.8203 	 Supervised Cost: 2.2493 	 Unsupervised Cost: 45.5711 	 Validation Accuracy: 0.2053
+Epoch: 17 	 Total Cost: 47.0747 	 Supervised Cost: 2.2492 	 Unsupervised Cost: 44.8255 	 Validation Accuracy: 0.1885
+Epoch: 17 	 Total Cost: 47.6868 	 Supervised Cost: 2.2487 	 Unsupervised Cost: 45.4381 	 Validation Accuracy: 0.1914
+Epoch: 17 	 Total Cost: 47.0504 	 Supervised Cost: 2.2485 	 Unsupervised Cost: 44.8019 	 Validation Accuracy: 0.1984
+Epoch: 17 	 Total Cost: 47.7598 	 Supervised Cost: 2.2484 	 Unsupervised Cost: 45.5114 	 Validation Accuracy: 0.1998
+Epoch: 17 	 Total Cost: 47.7522 	 Supervised Cost: 2.2480 	 Unsupervised Cost: 45.5042 	 Validation Accuracy: 0.2027
+Epoch: 17 	 Total Cost: 48.3329 	 Supervised Cost: 2.2479 	 Unsupervised Cost: 46.0850 	 Validation Accuracy: 0.2084
+Epoch: 17 	 Total Cost: 47.9188 	 Supervised Cost: 2.2471 	 Unsupervised Cost: 45.6717 	 Validation Accuracy: 0.2089
+Epoch: 17 	 Total Cost: 47.7605 	 Supervised Cost: 2.2466 	 Unsupervised Cost: 45.5140 	 Validation Accuracy: 0.214
+Epoch: 17 	 Total Cost: 47.8824 	 Supervised Cost: 2.2460 	 Unsupervised Cost: 45.6364 	 Validation Accuracy: 0.2122
+Epoch: 17 	 Total Cost: 47.3258 	 Supervised Cost: 2.2455 	 Unsupervised Cost: 45.0802 	 Validation Accuracy: 0.2165
+Epoch: 18 	 Total Cost: 42.5688 	 Supervised Cost: 2.2331 	 Unsupervised Cost: 40.3357 	 Validation Accuracy: 0.2162
+Epoch: 18 	 Total Cost: 41.4103 	 Supervised Cost: 2.2334 	 Unsupervised Cost: 39.1770 	 Validation Accuracy: 0.217
+Epoch: 18 	 Total Cost: 40.5049 	 Supervised Cost: 2.2325 	 Unsupervised Cost: 38.2724 	 Validation Accuracy: 0.2219
+Epoch: 18 	 Total Cost: 40.6927 	 Supervised Cost: 2.2330 	 Unsupervised Cost: 38.4596 	 Validation Accuracy: 0.226
+Epoch: 18 	 Total Cost: 40.0919 	 Supervised Cost: 2.2324 	 Unsupervised Cost: 37.8594 	 Validation Accuracy: 0.2225
+Epoch: 18 	 Total Cost: 43.7068 	 Supervised Cost: 2.2316 	 Unsupervised Cost: 41.4752 	 Validation Accuracy: 0.224
+Epoch: 18 	 Total Cost: 45.7846 	 Supervised Cost: 2.2310 	 Unsupervised Cost: 43.5537 	 Validation Accuracy: 0.2361
+Epoch: 18 	 Total Cost: 48.7456 	 Supervised Cost: 2.2296 	 Unsupervised Cost: 46.5160 	 Validation Accuracy: 0.2411
+Epoch: 18 	 Total Cost: 50.7264 	 Supervised Cost: 2.2292 	 Unsupervised Cost: 48.4972 	 Validation Accuracy: 0.2068
+Epoch: 18 	 Total Cost: 51.8030 	 Supervised Cost: 2.2298 	 Unsupervised Cost: 49.5732 	 Validation Accuracy: 0.1928
+Epoch: 18 	 Total Cost: 52.2031 	 Supervised Cost: 2.2313 	 Unsupervised Cost: 49.9718 	 Validation Accuracy: 0.1871
+Epoch: 18 	 Total Cost: 51.9626 	 Supervised Cost: 2.2322 	 Unsupervised Cost: 49.7304 	 Validation Accuracy: 0.1884
+Epoch: 18 	 Total Cost: 52.7679 	 Supervised Cost: 2.2329 	 Unsupervised Cost: 50.5351 	 Validation Accuracy: 0.1871
+Epoch: 18 	 Total Cost: 52.7767 	 Supervised Cost: 2.2334 	 Unsupervised Cost: 50.5433 	 Validation Accuracy: 0.1931
+Epoch: 18 	 Total Cost: 53.4755 	 Supervised Cost: 2.2335 	 Unsupervised Cost: 51.2419 	 Validation Accuracy: 0.1946
+Epoch: 19 	 Total Cost: 56.4926 	 Supervised Cost: 2.2217 	 Unsupervised Cost: 54.2709 	 Validation Accuracy: 0.2304
+Epoch: 19 	 Total Cost: 54.7131 	 Supervised Cost: 2.2187 	 Unsupervised Cost: 52.4944 	 Validation Accuracy: 0.2418
+Epoch: 19 	 Total Cost: 52.3653 	 Supervised Cost: 2.2150 	 Unsupervised Cost: 50.1503 	 Validation Accuracy: 0.2508
+Epoch: 19 	 Total Cost: 49.0046 	 Supervised Cost: 2.2118 	 Unsupervised Cost: 46.7929 	 Validation Accuracy: 0.2568
+Epoch: 19 	 Total Cost: 47.6941 	 Supervised Cost: 2.2082 	 Unsupervised Cost: 45.4859 	 Validation Accuracy: 0.2618
+Epoch: 19 	 Total Cost: 47.6684 	 Supervised Cost: 2.2042 	 Unsupervised Cost: 45.4642 	 Validation Accuracy: 0.267
+Epoch: 19 	 Total Cost: 47.2864 	 Supervised Cost: 2.2005 	 Unsupervised Cost: 45.0859 	 Validation Accuracy: 0.2709
+Epoch: 19 	 Total Cost: 48.0051 	 Supervised Cost: 2.1972 	 Unsupervised Cost: 45.8080 	 Validation Accuracy: 0.2783
+Epoch: 19 	 Total Cost: 47.8645 	 Supervised Cost: 2.1938 	 Unsupervised Cost: 45.6707 	 Validation Accuracy: 0.2846
+Epoch: 19 	 Total Cost: 47.9490 	 Supervised Cost: 2.1903 	 Unsupervised Cost: 45.7588 	 Validation Accuracy: 0.2856
+Epoch: 19 	 Total Cost: 48.5783 	 Supervised Cost: 2.1874 	 Unsupervised Cost: 46.3909 	 Validation Accuracy: 0.2871
+Epoch: 19 	 Total Cost: 49.2751 	 Supervised Cost: 2.1848 	 Unsupervised Cost: 47.0903 	 Validation Accuracy: 0.2944
+Epoch: 19 	 Total Cost: 50.2333 	 Supervised Cost: 2.1823 	 Unsupervised Cost: 48.0510 	 Validation Accuracy: 0.3105
+Epoch: 19 	 Total Cost: 49.9106 	 Supervised Cost: 2.1799 	 Unsupervised Cost: 47.7307 	 Validation Accuracy: 0.332
+Epoch: 19 	 Total Cost: 50.1634 	 Supervised Cost: 2.1776 	 Unsupervised Cost: 47.9858 	 Validation Accuracy: 0.3679
+Epoch: 20 	 Total Cost: 50.1488 	 Supervised Cost: 2.1205 	 Unsupervised Cost: 48.0284 	 Validation Accuracy: 0.3971
+Epoch: 20 	 Total Cost: 50.1923 	 Supervised Cost: 2.1164 	 Unsupervised Cost: 48.0759 	 Validation Accuracy: 0.4054
+Epoch: 20 	 Total Cost: 48.7265 	 Supervised Cost: 2.1126 	 Unsupervised Cost: 46.6139 	 Validation Accuracy: 0.4032
+Epoch: 20 	 Total Cost: 51.8325 	 Supervised Cost: 2.1099 	 Unsupervised Cost: 49.7225 	 Validation Accuracy: 0.4143
+Epoch: 20 	 Total Cost: 51.7776 	 Supervised Cost: 2.1054 	 Unsupervised Cost: 49.6722 	 Validation Accuracy: 0.4198
+Epoch: 20 	 Total Cost: 52.3343 	 Supervised Cost: 2.1013 	 Unsupervised Cost: 50.2330 	 Validation Accuracy: 0.4308
+Epoch: 20 	 Total Cost: 51.0337 	 Supervised Cost: 2.0970 	 Unsupervised Cost: 48.9367 	 Validation Accuracy: 0.4481
+Epoch: 20 	 Total Cost: 53.6136 	 Supervised Cost: 2.0926 	 Unsupervised Cost: 51.5210 	 Validation Accuracy: 0.4583
+Epoch: 20 	 Total Cost: 55.1519 	 Supervised Cost: 2.0892 	 Unsupervised Cost: 53.0628 	 Validation Accuracy: 0.4635
+Epoch: 20 	 Total Cost: 54.6093 	 Supervised Cost: 2.0860 	 Unsupervised Cost: 52.5233 	 Validation Accuracy: 0.4857
+Epoch: 20 	 Total Cost: 53.8451 	 Supervised Cost: 2.0828 	 Unsupervised Cost: 51.7623 	 Validation Accuracy: 0.4827
+Epoch: 20 	 Total Cost: 52.9703 	 Supervised Cost: 2.0802 	 Unsupervised Cost: 50.8901 	 Validation Accuracy: 0.4944
+Epoch: 20 	 Total Cost: 52.1631 	 Supervised Cost: 2.0773 	 Unsupervised Cost: 50.0858 	 Validation Accuracy: 0.5067
+Epoch: 20 	 Total Cost: 52.0492 	 Supervised Cost: 2.0747 	 Unsupervised Cost: 49.9745 	 Validation Accuracy: 0.5104
+Epoch: 20 	 Total Cost: 51.3769 	 Supervised Cost: 2.0722 	 Unsupervised Cost: 49.3047 	 Validation Accuracy: 0.5148
+=====================
+
+Done :)
