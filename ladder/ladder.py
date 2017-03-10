@@ -59,6 +59,9 @@ def evaluate_performance(ladder, valid_loader, e, agg_cost_scaled, agg_supervise
             data = data.cuda()
         data, target = Variable(data), Variable(target)
         output = ladder.forward_encoders_clean(data)
+        if args.cuda:
+            output = output.cpu()
+            target = target.cpu()
         output = output.data.numpy()
         preds = np.argmax(output, axis=1)
         target = target.data.numpy()

@@ -35,9 +35,10 @@ class Encoder(torch.nn.Module):
             # batch-normalization scaling
             if self.use_cuda:
                 self.bn_gamma = Parameter(torch.cuda.FloatTensor(1, d_out))
+                self.bn_gamma.data = torch.ones(self.bn_gamma.size()).cuda()
             else:
                 self.bn_gamma = Parameter(torch.FloatTensor(1, d_out))
-            self.bn_gamma.data = torch.ones(self.bn_gamma.size())
+                self.bn_gamma.data = torch.ones(self.bn_gamma.size())
 
         # Activation
         if activation_type == 'relu':
@@ -54,7 +55,10 @@ class Encoder(torch.nn.Module):
         self.buffer_tilde_z = None
 
     def bn_gamma_beta(self, x):
-        ones = Parameter(torch.ones(x.size()[0], 1))
+        if self.use_cuda:
+            ones = Parameter(torch.ones(x.size()[0], 1).cuda())
+        else:
+            ones = Parameter(torch.ones(x.size()[0], 1))
         t = x + ones.mm(self.bn_beta)
         if self.train_bn_scaling:
             t = torch.mul(t, ones.mm(self.bn_gamma))
