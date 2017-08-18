@@ -1,7 +1,7 @@
 # ladder
 
-Implementation of [Ladder Network](https://arxiv.org/abs/1507.02672) in [PyTorch](http://pytorch.org/). 
-
+Implementation of [Ladder Network](https://arxiv.org/abs/1507.02672) and Stacked Denoising Autoencoder in [PyTorch](http://pytorch.org/).
+ 
 ### Requirements
 
 - [PyTorch](http://pytorch.org/)
